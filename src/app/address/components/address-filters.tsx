@@ -1,14 +1,8 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { MapPin, User, Building2 } from "lucide-react";
+import { Select } from "@/components/forms/uncontrolled/select";
 
 interface AddressFiltersProps {
   onFilterChange: (filters: {
@@ -62,46 +56,22 @@ export function AddressFilters({
       </div>
 
       <Select
-        onValueChange={(value) =>
-          handleChange("city", value === "all" ? "" : value)
-        }
-      >
-        <SelectTrigger id="city-filter" className="w-full">
-          <div className="flex items-center gap-2">
-            <MapPin size={16} className="text-muted-foreground" />
-            <SelectValue placeholder="Selecione uma cidade" />
-          </div>
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">Todas as cidades</SelectItem>
-          {cities.map((city) => (
-            <SelectItem key={city} value={city}>
-              {city}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+        id="city-filter"
+        placeholder="Selecione uma cidade"
+        icon={MapPin}
+        options={cities}
+        onValueChange={(value) => handleChange("city", value)}
+        allOptionLabel="Todas as cidades"
+      />
 
       <Select
-        onValueChange={(value) =>
-          handleChange("state", value === "all" ? "" : value)
-        }
-      >
-        <SelectTrigger id="state-filter" className="w-full">
-          <div className="flex items-center gap-2">
-            <MapPin size={16} className="text-muted-foreground" />
-            <SelectValue placeholder="Selecione um estado" />
-          </div>
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">Todos os estados</SelectItem>
-          {states.map((state) => (
-            <SelectItem key={state} value={state}>
-              {state}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+        id="state-filter"
+        placeholder="Selecione um estado"
+        icon={MapPin}
+        options={states}
+        onValueChange={(value) => handleChange("state", value)}
+        allOptionLabel="Todos os estados"
+      />
     </div>
   );
 }

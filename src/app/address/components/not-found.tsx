@@ -4,9 +4,10 @@ import { Plus } from "lucide-react";
 
 interface NotFoundProps {
   onAddNew: () => void;
+  hasValues: boolean;
 }
 
-export function NotFound({ onAddNew }: NotFoundProps) {
+export function NotFound({ onAddNew, hasValues }: NotFoundProps) {
   return (
     <div className="flex flex-col items-center justify-center py-12 px-4">
       <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center mb-6">
@@ -16,12 +17,13 @@ export function NotFound({ onAddNew }: NotFoundProps) {
         Nenhum endereço encontrado
       </h2>
       <p className="text-muted-foreground text-center mb-8 max-w-md">
-        Parece que você ainda não cadastrou nenhum endereço. Clique no botão
-        abaixo para começar a adicionar seus endereços.
+        {hasValues
+          ? "Nenhum endereço corresponde aos filtros aplicados. Tente ajustar os filtros ou adicionar um novo endereço."
+          : "Parece que você ainda não cadastrou nenhum endereço. Clique no botão abaixo para começar a adicionar seus endereços."}
       </p>
       <Button onClick={onAddNew}>
         <Plus className="mr-2 h-4 w-4" />
-        Adicionar Primeiro Endereço
+        {hasValues ? "Adicionar Novo Endereço" : "Adicionar Primeiro Endereço"}
       </Button>
     </div>
   );

@@ -2,9 +2,9 @@
 
 import React, { useEffect } from "react";
 import { z } from "zod";
-import { CForm } from "@/components/forms/form";
+import { CForm } from "@/components/forms/controlled/form";
 import { useFormContext } from "react-hook-form";
-import { CInput } from "@/components/forms/form-input";
+import { CInput } from "@/components/forms/controlled/form-input";
 import { useViaCep } from "@/hooks/use-via-cep";
 import { Button } from "@/components/ui/button";
 import {
