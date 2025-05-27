@@ -1,22 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { AddressForm } from "./components/address-form";
 import { AddressFilters } from "./components/address-filters";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { AddressList } from "./components/address-list";
 import { useAddressFilters } from "@/hooks/use-address-filter";
 import { useAddresses } from "@/hooks/use-address";
 import { Address } from "@/types/address";
 import { AddressDelete } from "./components/address-delete";
+import { AddressModal } from "./components/address-modal";
+import { NotFound } from "./components/not-found";
 
 export default function AddressPage() {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -63,46 +55,39 @@ export default function AddressPage() {
     handleCloseDialog();
   };
 
+  const hasAddresses = filteredAddresses.length > 0;
+
   return (
     <>
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Agenda de Endereços</h1>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="mr-2 h-4 w-4" />
-              Novo Endereço
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>
-                {addressToEdit ? "Editar Endereço" : "Novo Endereço"}
-              </DialogTitle>
-            </DialogHeader>
-            <AddressForm
-              closeModal={handleCloseDialog}
-              handleSubmit={handleSubmit}
-              initialAddress={addressToEdit}
-              isEditing={!!addressToEdit}
-            />
-          </DialogContent>
-        </Dialog>
-      </div>
-
-      <div className="mb-8">
-        <AddressFilters
-          onFilterChange={setFilters}
-          cities={cities}
-          states={states}
+        <AddressModal
+          isOpen={isDialogOpen}
+          onOpenChange={setIsDialogOpen}
+          addressToEdit={addressToEdit}
+          onSubmit={handleSubmit}
         />
       </div>
 
-      <AddressList
-        addresses={filteredAddresses}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-      />
+      {hasAddresses ? (
+        <>
+          <div className="mb-8">
+            <AddressFilters
+              onFilterChange={setFilters}
+              cities={cities}
+              states={states}
+            />
+          </div>
+
+          <AddressList
+            addresses={filteredAddresses}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+        </>
+      ) : (
+        <NotFound onAddNew={() => setIsDialogOpen(true)} />
+      )}
 
       <AddressDelete
         isOpen={isDeleteDialogOpen}
